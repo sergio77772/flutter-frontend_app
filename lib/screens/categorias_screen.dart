@@ -41,7 +41,6 @@
 //     var width = MediaQuery.of(context).size.width;
 //     var height = MediaQuery.of(context).size.height;
 
-   
 //     final displayedCategories = _categories; // limitar cantidas usandoo .take()`
 
 //     return Scaffold(
@@ -139,7 +138,6 @@
 //   }
 // }
 
-
 import 'package:app_distribuidora/services/categorias_service.dart';
 import 'package:flutter/material.dart';
 
@@ -158,7 +156,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchCategorias(); 
+    _fetchCategorias();
   }
 
   Future<void> _fetchCategorias() async {
@@ -171,36 +169,33 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
       print('Error al cargar categorías: $error');
     } finally {
       setState(() {
-        _isLoading = false; // Cambia el estado de carga a `false` cuando termine.
+        _isLoading =
+            false; // Cambia el estado de carga a `false` cuando termine.
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-  
     var width = MediaQuery.of(context).size.width;
-    
+
     var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: _isLoading
           ? Container(
-                color: const Color(0xFFF5F5F5),
+              color: const Color(0xFFF5F5F5),
               child: Center(
-              
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey), 
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                 ),
               ),
             )
           : Container(
-          
-              height: height, 
-              width: width, 
+              height: height,
+              width: width,
               color: const Color(0xFFF5F5F5),
               child: Column(
-              
                 children: [
                   Container(
                     height: 70,
@@ -214,7 +209,8 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            icon: const Icon(Icons.arrow_back, color: Colors.grey),
+                            icon: const Icon(Icons.arrow_back,
+                                color: Colors.grey),
                           ),
                           const SizedBox(width: 80),
                           const Text(
@@ -243,13 +239,11 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                 (index) {
                                   var categoria = _categories[index];
                                   return Container(
-                                    
                                     margin: const EdgeInsets.all(3.0),
                                     clipBehavior: Clip.antiAlias,
                                     width: (width - 40) / 3,
                                     decoration: BoxDecoration(
                                       color: Colors.grey[100],
-                                       
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: 1,
@@ -262,20 +256,22 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.symmetric(vertical: 5),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5),
                                           child: Container(
                                             height: 70,
                                             width: 90,
                                             clipBehavior: Clip.antiAlias,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
                                             child: Image.network(
                                               categoria['imagen'] ?? '',
                                               fit: BoxFit.cover,
-                                              errorBuilder: (context, error, stackTrace) =>
+                                              errorBuilder: (context, error,
+                                                      stackTrace) =>
                                                   const Icon(Icons.broken_image,
                                                       size: 40,
                                                       color: Color.fromARGB(
