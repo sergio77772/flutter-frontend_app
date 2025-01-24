@@ -126,7 +126,6 @@ class Categorias extends StatelessWidget {
             ),
           ),
           Container(
-        
             height: 85, // Altura total del contenedor.
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // Scroll horizontal.
@@ -155,7 +154,7 @@ class Categorias extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.05),
                               )
                             ],
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           child: Image.network(
                             categoria['imagen'],

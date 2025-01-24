@@ -178,9 +178,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-
     var height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: _isLoading
           ? Container(
@@ -265,7 +263,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(5),
                                             ),
                                             child: Image.network(
                                               categoria['imagen'] ?? '',
