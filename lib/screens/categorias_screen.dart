@@ -153,12 +153,12 @@ class CategoriasScreen extends StatefulWidget {
 class _CategoriasScreenState extends State<CategoriasScreen> {
   final CategoriasService _categoriasService = CategoriasService();
   List<dynamic> _categories = [];
-  bool _isLoading = true; // Variable para controlar el estado de carga.
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _fetchCategorias(); // Llama a la función para cargar todas las categorías.
+    _fetchCategorias(); 
   }
 
   Future<void> _fetchCategorias() async {
@@ -178,9 +178,9 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtiene el ancho de la pantalla del dispositivo.
+  
     var width = MediaQuery.of(context).size.width;
-    // Obtiene la altura de la pantalla del dispositivo.
+    
     var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
