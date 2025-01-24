@@ -188,19 +188,19 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
           ? Container(
                 color: const Color(0xFFF5F5F5),
               child: Center(
-                // Si está cargando (es decir, _isLoading es true), muestra un CircularProgressIndicator.
+              
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey), // Cambia el color del indicador de carga.
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey), 
                 ),
               ),
             )
           : Container(
-              // Si no está cargando (es decir, _isLoading es false), muestra el contenido del Container.
-              height: height, // Establece la altura del contenedor igual a la altura de la pantalla.
-              width: width, // Establece el ancho del contenedor igual al ancho de la pantalla.
-              color: const Color(0xFFF5F5F5), // Establece el color de fondo del contenedor.
+          
+              height: height, 
+              width: width, 
+              color: const Color(0xFFF5F5F5),
               child: Column(
-                // Un Column es un widget que organiza a sus hijos en una columna (verticalmente).
+              
                 children: [
                   Container(
                     height: 70,
