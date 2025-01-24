@@ -241,12 +241,12 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                     clipBehavior: Clip.antiAlias,
                                     width: (width - 40) / 3,
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[100],
+                                     color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: 1,
                                           spreadRadius: 2,
-                                          color: Colors.black.withOpacity(0.03),
+                                          color: Colors.black.withOpacity(0.1),
                                         ),
                                       ],
                                       borderRadius: BorderRadius.circular(5),
@@ -257,7 +257,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 5),
                                           child: Container(
-                                            height: 70,
+                                            height: 90,
                                             width: 90,
                                             clipBehavior: Clip.antiAlias,
                                             decoration: BoxDecoration(
@@ -266,21 +266,16 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                                   BorderRadius.circular(10),
                                             ),
                                             child: Image.network(
-                                              categoria['imagen'] ?? '',
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
-                                                  const Icon(Icons.broken_image,
-                                                      size: 40,
-                                                      color: Color.fromARGB(
-                                                          255, 211, 210, 210)),
-                                            ),
+                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
+                            
+                          ),
                                           ),
                                         ),
                                         const SizedBox(height: 5),
                                         Container(
                                           padding: EdgeInsets.all(2),
-                                          color: Colors.white,
+                                          
+                                           color: Colors.grey[100],
                                           width: 115,
                                           height: 35,
                                           child: Center(

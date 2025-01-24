@@ -84,7 +84,7 @@ class Categorias extends StatelessWidget {
     final displayedCategories = categories.take(8).toList();
 
     return Container(
-      height: 110,
+      height: 118,
       child: Column(
         children: [
           Padding(
@@ -126,7 +126,7 @@ class Categorias extends StatelessWidget {
             ),
           ),
           Container(
-            height: 85, // Altura total del contenedor.
+            height: 92, // Altura total del contenedor.
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // Scroll horizontal.
               itemCount: displayedCategories
@@ -134,17 +134,20 @@ class Categorias extends StatelessWidget {
               itemBuilder: (context, index) {
                 var categoria = displayedCategories[index]; // Categoría actual.
                 return Padding(
-                  padding: const EdgeInsets.only(right: 5),
+                  padding: const EdgeInsets.only(right: 5,left: 5),
                   child: Container(
-           
                     padding: EdgeInsets.only(top: 5),
                     width: 70,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: 50,
-                          width: 50,
+                          
+                          clipBehavior: Clip.antiAlias,
+                          
+                           padding: EdgeInsets.all(5),
+                          height: 60,
+                          width: 60,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -154,20 +157,17 @@ class Categorias extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.05),
                               )
                             ],
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(100),
                           ),
                           child: Image.network(
-                            categoria['imagen'],
+                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(Icons.broken_image,
-                                    size: 40,
-                                    color: Color.fromARGB(255, 211, 210, 210)),
+                            
                           ),
                         ),
-                        const SizedBox(height: 5),
+                        SizedBox(height: 5),
                         Container(
-                    
+                         
                           child: Text(
                             categoria['nombre'],
                             textAlign: TextAlign.center,
