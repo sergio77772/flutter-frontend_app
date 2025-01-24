@@ -25,15 +25,15 @@ Widget widget_search_home() {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 2,
-                                      spreadRadius: 1,
-                                      offset: Offset(0, 2)),
-                    ]
-                  ),
+                  // decoration: BoxDecoration(
+                  //   boxShadow: [
+                  //     BoxShadow(
+                  //                     color: Colors.black.withOpacity(0.1),
+                  //                     blurRadius: 2,
+                  //                     spreadRadius: 1,
+                  //                     offset: Offset(0, 2)),
+                  //   ]
+                  // ),
                     height: 32,
                     width: 290,
                     child: TextField(

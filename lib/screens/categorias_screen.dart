@@ -263,7 +263,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadius.circular(5),
+                                                  BorderRadius.circular(10),
                                             ),
                                             child: Image.network(
                                               categoria['imagen'] ?? '',

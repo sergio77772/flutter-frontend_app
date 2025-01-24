@@ -154,7 +154,7 @@ class Categorias extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.05),
                               )
                             ],
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: Image.network(
                             categoria['imagen'],
