@@ -1,0 +1,41 @@
+name: Build Flutter APK
+
+on:
+  push:
+    branches:
+      - main # Cambia "main" por la rama que desees monitorizar
+  pull_request:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+    # Configura Flutter
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: "stable" # O especifica una versión específica
+
+    # Instala las dependencias
+    - name: Install dependencies
+      run: flutter pub get
+
+    # Ejecuta pruebas (opcional)
+    - name: Run tests
+      run: flutter test
+
+    # Genera el APK
+    - name: Build APK
+      run: flutter build apk --release
+
+    # Guarda el APK como artefacto
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
