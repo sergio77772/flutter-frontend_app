@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Categorias(
                 categories: _categories,
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 10,),
               Productos(
                 categories: _categories,
               ),
@@ -232,8 +232,8 @@ class Productos extends StatelessWidget {
               color: const Color.fromARGB(255, 202, 202, 202), width: 0.5),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 3,
+              color: Colors.black.withOpacity(0.09),
+              blurRadius: 6,
               spreadRadius: 1,
             )
           ]),
@@ -296,7 +296,7 @@ class Productos extends StatelessWidget {
                             children: [
                               Container(
                                 child: Text(
-                                  'USD \$${categoria['price'].toString()}',
+                                  '\$${categoria['price'].toString()}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -317,7 +317,6 @@ class Productos extends StatelessWidget {
               },
             ),
           ),
-          
         ],
       ),
     ),
