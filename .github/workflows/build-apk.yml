@@ -3,7 +3,7 @@ name: Build Flutter APK
 on:
   push:
     branches:
-      - main # Cambia "main" por la rama que desees monitorizar
+      - master # Cambia "main" por la rama que desees monitorizar
   pull_request:
 
 jobs:
