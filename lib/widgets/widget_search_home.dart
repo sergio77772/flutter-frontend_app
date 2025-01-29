@@ -81,10 +81,10 @@ Widget widget_search_home() {
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    color: Colors.white,
+                    // color: Colors.white,
                     height: 30,
                     width: 30,
-                    
+                    child: Icon(Icons.shopping_cart_outlined, color: Colors.black,), 
                   ),
                 ),
               ],

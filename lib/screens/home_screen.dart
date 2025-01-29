@@ -1,8 +1,11 @@
-import 'package:app_distribuidora/screens/categorias_screen.dart';
+import 'package:app_distribuidora/screens/favoritos_screen.dart';
+import 'package:app_distribuidora/screens/notificaciones_screen.dart';
 import 'package:app_distribuidora/services/categorias_service.dart';
+import 'package:app_distribuidora/widgets/widget_categorias.dart';
 import 'package:app_distribuidora/widgets/widget_search_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_symbols/flutter_material_symbols.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _page = 1;
   final int _limit = 10;
   bool _hasMore = true;
+// Para controlar la pestaña seleccionada en la barra de navegación.
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -46,280 +51,254 @@ class _HomeScreenState extends State<HomeScreen> {
     var height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
-  color: const Color(0xFFF5F5F5),
-  height: height,
-  width: width,
-  child: Column(
-    children: [
-      widget_search_home(), // Widget de búsqueda.
-      const SizedBox(height: 10),
-      Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 130,
-                width: 330,
-                color: Colors.white, // Placeholder para otro contenido.
-              ),
-              const SizedBox(height: 10),
-              Categorias(
-                categories: _categories,
-              ),
-              SizedBox(height: 10,),
-              Productos(
-                categories: _categories,
-              ),
-               SizedBox(height: 20,),
-            ],
+      body: Stack(
+        children: [
+          // Cambia el contenido mostrado según la pestaña seleccionada.
+          if (currentIndex == 0) homeScreen(height, width),
+          if (currentIndex == 1) const FavoritosScreen(),
+          if (currentIndex == 2) const NotificacionesScreen(),
+          if (currentIndex == 3) const Center(child: Text('Perfil de usuario')),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(color: Colors.white),
+        child: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            backgroundColor: Colors.white,
+            indicatorColor: Colors.grey[200],
+
+            indicatorShape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+
+            height: 50,
+            // Personalización de los íconos.
+            iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
+              if (states.contains(WidgetState.selected)) {
+                return IconThemeData(
+                    color: Colors.black, size: 26); // Ícono seleccionado.
+              }
+              return IconThemeData(
+                  color: Colors.grey[500], size: 23); // Ícono no seleccionado.
+            }),
+            // Personalización del texto de las pestañas.
+            labelTextStyle:
+                WidgetStateProperty.resolveWith<TextStyle>((states) {
+              if (states.contains(WidgetState.selected)) {
+                return TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                );
+              }
+              return TextStyle(
+                fontSize: 8,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey[600],
+              );
+            }),
+          ),
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 5,
+            ),
+            child: NavigationBar(
+              destinations: [
+                // Define cada pestaña con su ícono y etiqueta.
+                NavigationDestination(
+                  icon: Icon(MaterialSymbols.home),
+                  label: 'Inicio',
+                ),
+                NavigationDestination(
+                  icon: Icon(MaterialSymbols.favorite),
+                  label: 'Favoritos',
+                ),
+                NavigationDestination(
+                  icon: Icon(MaterialSymbols.notifications),
+                  label: 'Notificaciones',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.menu),
+                  label: 'Más',
+                ),
+              ],
+              onDestinationSelected: (int index) {
+                // Cambia la pestaña seleccionada cuando el usuario toca una opción.
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              selectedIndex: currentIndex, // Marca la pestaña activa.
+            ),
           ),
         ),
       ),
-    ],
-  ),
-)
     );
   }
-}
 
-
-
-class Categorias extends StatelessWidget {
-  final List categories; // Lista de categorías.
-
-  const Categorias({
-    super.key,
-    required this.categories,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // Limita las categorías a un máximo de 10.
-    final displayedCategories = categories.take(8).toList();
-
+  Widget homeScreen(double height, double width) {
     return Container(
-      height: 118,
+      color: const Color(0xFFF5F5F5),
+      height: height,
+      width: width,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Container(
-              height: 23,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          widget_search_home(), // Widget de búsqueda.
+          const SizedBox(height: 10),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
                   Container(
-                    child: Text(
-                      'Categorias',
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black),
-                    ),
+                    height: 130,
+                    width: 330,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 6,
+                            spreadRadius: 1,
+                          )
+                        ]),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => CategoriasScreen(),
-                          ));
-                    },
-                    child: Container(
-                      child: Text(
-                        'Ver más',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[400]),
-                      ),
-                    ),
+                  const SizedBox(height: 10),
+                  Categorias(
+                    categories: _categories,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // Productos(
+                  //   categories: _categories,
+                  // ),
+                  SizedBox(
+                    height: 20,
                   ),
                 ],
               ),
             ),
           ),
-          Container(
-            height: 92, // Altura total del contenedor.
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Scroll horizontal.
-              itemCount: displayedCategories
-                  .length, // Solo las primeras 10 categorías.
-              itemBuilder: (context, index) {
-                var categoria = displayedCategories[index]; // Categoría actual.
-                return Padding(
-                  padding: const EdgeInsets.only(right: 5,left: 5),
-                  child: Container(
-                    padding: EdgeInsets.only(top: 5),
-                    width: 70,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          
-                          clipBehavior: Clip.antiAlias,
-                          
-                           padding: EdgeInsets.all(5),
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 2,
-                                spreadRadius: 1,
-                                color: Colors.black.withOpacity(0.05),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Image.network(
-                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
-                            fit: BoxFit.cover,
-                            
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                         
-                          child: Text(
-                            categoria['nombre'],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[500]),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
         ],
       ),
     );
   }
 }
+// class Productos extends StatelessWidget {
+//   final List categories; // Lista de categorías.
 
-class Productos extends StatelessWidget {
-  final List categories; // Lista de categorías.
+//   const Productos({
+//     super.key,
+//     required this.categories,
 
-  const Productos({
-    super.key,
-    required this.categories,
-  });
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    // Limita las categorías a un máximo de 10.
-    final displayedCategories = categories.take(8).toList();
+//   @override
+//   Widget build(BuildContext context) {
+//     // Limita las categorías al número máximo permitido. usando .take
+//     final displayedCategories = categories.toList();
 
-    return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
-    child: Container(
-      
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          border: Border.all(
-              color: const Color.fromARGB(255, 202, 202, 202), width: 0.5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.09),
-              blurRadius: 6,
-              spreadRadius: 1,
-            )
-          ]),
-      child: Column(
-        children: [
-          
-          Wrap(
-            children: List.generate(
-              categories.take(16).length, // Toma 4 productos aleatorios
-              (index) {
-                final categoria = categories[index];
+//     return Padding(
+//     padding: const EdgeInsets.symmetric(horizontal: 8),
+//     child: Container(
 
-                return GestureDetector(
-                  onTap: () {
-                  },
-                  child: Container(
-                    width: 170,
-                    height: 240, // 2 elementos por fila
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 202, 202, 202),
-                          width: 0.2),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 8,right: 8),
-                          child: Container(
-                            child: Image.network(
-                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
-                            fit: BoxFit.cover,
-                            
-                          ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 5, top: 5, right: 5),
-                          child: Container(
-                            width: double.infinity,
-                            child: Text(
-                              categoria['nombre'] ?? 'Sin nombre',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                  '\$${categoria['price'].toString()}',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-  }
-}
+//       clipBehavior: Clip.antiAlias,
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(10),
+//           color: Colors.white,
+//           border: Border.all(
+//               color: const Color.fromARGB(255, 202, 202, 202), width: 0.5),
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.grey.withOpacity(0.2),
+//               blurRadius: 6,
+//               spreadRadius: 1,
+//             )
+//           ]),
+//       child: Column(
+//         children: [
+
+//           Wrap(
+//             children: List.generate(
+//               displayedCategories.length, // Usa el número limitado de categorías.
+//                 (index) {
+//                   final categoria = displayedCategories[index];
+//                 return GestureDetector(
+//                   onTap: () {
+//                   },
+//                   child: Container(
+//                     width: 170,
+//                     height: 240, // 2  por fila
+//                     clipBehavior: Clip.antiAlias,
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.circular(0),
+//                       border: Border.all(
+//                           color: const Color.fromARGB(255, 202, 202, 202),
+//                           width: 0.2),
+//                     ),
+//                     child: Column(
+//                       mainAxisAlignment: MainAxisAlignment.end,
+//                       mainAxisSize: MainAxisSize.min,
+//                       children: [
+//                         Padding(
+//                           padding: const EdgeInsets.only(top: 10, left: 8,right: 8),
+//                           child: Container(
+//                             child: Image.network(
+//                             'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
+//                             fit: BoxFit.cover,
+
+//                           ),
+//                           ),
+//                         ),
+//                         Padding(
+//                           padding:
+//                               const EdgeInsets.only(left: 5, top: 5, right: 5),
+//                           child: Container(
+//                             width: double.infinity,
+//                             child: Text(
+//                               categoria['nombre'] ?? 'Sin nombre',
+//                               maxLines: 2,
+//                               overflow: TextOverflow.ellipsis,
+//                               style: const TextStyle(
+//                                 fontSize: 11,
+//                                 fontWeight: FontWeight.w400,
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                         Padding(
+//                           padding: const EdgeInsets.all(5),
+//                           child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.start,
+//                             children: [
+//                               Container(
+//                                 child: Text(
+//                                   '\$${categoria['price'].toString()}',
+//                                   maxLines: 2,
+//                                   overflow: TextOverflow.ellipsis,
+//                                   style: const TextStyle(
+//                                     fontSize: 15,
+//                                     fontWeight: FontWeight.w500,
+//                                     color: Colors.black,
+//                                   ),
+//                                 ),
+//                               ),
+
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+//   }
+// }
+
