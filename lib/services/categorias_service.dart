@@ -14,10 +14,10 @@ class CategoriasService {
 
         return data['categories'];
       } else {
-        throw Exception('Failed to load categories');
+        throw Exception('No se pudieron cargar las categorias');
       }
     } catch (error) {
-      throw Exception('Error fetching categories: $error');
+      throw Exception('Error al buscar las categorias: $error');
     }
   }
 }

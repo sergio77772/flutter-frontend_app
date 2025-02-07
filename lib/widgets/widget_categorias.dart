@@ -1,19 +1,49 @@
 import 'package:app_distribuidora/screens/categorias_screen.dart';
+import 'package:app_distribuidora/services/categorias_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Categorias extends StatelessWidget {
-  final List categories; // Lista de categorías.
+class Categorias extends StatefulWidget {
+  @override
+  _CategoriasState createState() => _CategoriasState();
+}
 
-  const Categorias({
-    super.key,
-    required this.categories,
-  });
+class _CategoriasState extends State<Categorias> {
+  final CategoriasService _categoriasService =
+      CategoriasService(); // Instancia del servicio
+  List<dynamic> _categories = [];
+
+  int _page = 1;
+  final int _limit = 10;
+  bool _hasMore = true;
+  bool _isLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCategorias();
+  }
+
+  Future<void> _fetchCategorias() async {
+    if (!_hasMore) return;
+
+    try {
+      final newCategories =
+          await _categoriasService.fetchCategorias(_page, _limit);
+      setState(() {
+        _categories.addAll(newCategories);
+        _page++;
+        if (newCategories.length < _limit) _hasMore = false;
+      });
+    } catch (error) {
+      print('Error al cargar categorías: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Limita las categorías a un máximo de 10.
-    final displayedCategories = categories.take(8).toList();
+    // Limita las categorías a un máximo de 8.
+    final displayedCategories = _categories.take(8).toList();
 
     return Container(
       height: 118,
@@ -61,12 +91,11 @@ class Categorias extends StatelessWidget {
             height: 92, // Altura total del contenedor.
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // Scroll horizontal.
-              itemCount: displayedCategories
-                  .length, 
+              itemCount: displayedCategories.length,
               itemBuilder: (context, index) {
                 var categoria = displayedCategories[index]; // Categoría actual.
                 return Padding(
-                  padding: const EdgeInsets.only(right: 5,left: 5),
+                  padding: const EdgeInsets.only(right: 5, left: 5),
                   child: Container(
                     padding: EdgeInsets.only(top: 5),
                     width: 70,
@@ -74,10 +103,8 @@ class Categorias extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          
                           clipBehavior: Clip.antiAlias,
-                          
-                           padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(5),
                           height: 60,
                           width: 60,
                           decoration: BoxDecoration(
@@ -92,16 +119,22 @@ class Categorias extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Image.network(
-                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
-                            fit: BoxFit.cover,
-                            
-                          ),
+                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}',
+                            width: double.infinity,
+                            height: 120,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.broken_image,
+                                size: 50,
+                                color: Colors.white,
+                              );
+                            },
+                          ), // Si la imagen es null o vacía, no muestra nada
                         ),
                         SizedBox(height: 5),
                         Container(
-                         
                           child: Text(
-                            categoria['nombre'],
+                            categoria['nombre'] ?? 'Sin nombre',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 8,

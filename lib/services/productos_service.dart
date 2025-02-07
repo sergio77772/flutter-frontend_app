@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class CategoriasService {
-  Future<List<dynamic>> fetchCategorias(int page, int limit) async {
+class ProductosService {
+  Future<List<dynamic>> fetchProductos(int page, int limit) async {
     var url = Uri.parse(
-        'https://distribuidoraassefperico.com.ar//apis/productos.php?endpoint=productos&page=$page&limit=$limit');
+        'https://distribuidoraassefperico.com.ar/apis/productos.php?endpoint=producto&search=&page=$page&limit=$limit');
 
     try {
       final response = await http.get(url);
@@ -12,12 +12,12 @@ class CategoriasService {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
-        return data['categories'];
+        return data['producto'];
       } else {
-        throw Exception('Failed to load categories');
+        throw Exception('No se pudieron cargar los productos');
       }
     } catch (error) {
-      throw Exception('Error fetching categories: $error');
+      throw Exception('Error al buscar los productos: $error');
     }
   }
 }
