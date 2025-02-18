@@ -1,3 +1,5 @@
+import 'package:app_distribuidora/screens/detalles_productos.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert';
@@ -86,9 +88,8 @@ class _SearchPageState extends State<SearchPage> {
                         child: Container(
                           height: 30,
                           width: 30,
-                        
-                          child: Icon(Icons.keyboard_arrow_left_outlined,size: 30,
-                              color: Colors.grey),
+                          child: Icon(Icons.keyboard_arrow_left_outlined,
+                              size: 30, color: Colors.grey),
                         ),
                       ),
                       SizedBox(width: 5.0),
@@ -174,12 +175,19 @@ class _SearchPageState extends State<SearchPage> {
                       (index) {
                         final producto = _searchResults[index];
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    DetallesProductos(producto: producto),
+                              ),
+                            );
+                          },
                           child: Column(
                             children: [
                               Container(
                                 width: double.infinity,
-                                
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -201,7 +209,8 @@ class _SearchPageState extends State<SearchPage> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 5,right: 5),
+                                      padding: const EdgeInsets.only(
+                                          left: 5, right: 5),
                                       child: Container(
                                         height: 80,
                                         width: 80,
@@ -255,7 +264,8 @@ class _SearchPageState extends State<SearchPage> {
                                           child: SizedBox(
                                             width: 200,
                                             child: Text(
-                                              producto['descripcioncompleta'].toString(),
+                                              producto['descripcioncompleta']
+                                                  .toString(),
                                               maxLines: 5,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
