@@ -21,7 +21,7 @@ jobs:
         flutter-version: "3.16.0"  # Especifica una versión compatible con Dart 3.5.3
 
     - name: Verify Dart version
-      run: dart --version  # Muestra la versión de Dart instalada para depuración
+      run: dart --version  # Muestra la versión de Dart instalada
 
     - name: Install dependencies
       run: flutter pub get
