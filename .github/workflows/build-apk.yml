@@ -19,8 +19,11 @@ jobs:
       run: |
         # Clona el repositorio de Flutter directamente desde el canal estable
         git clone https://github.com/flutter/flutter.git --depth 1 -b stable $HOME/flutter
-        echo "$HOME/flutter/bin" >> $GITHUB_PATH  # Añade Flutter al PATH
-        flutter doctor --version  # Verifica la versión de Flutter y Dart
+        # Añade Flutter al PATH
+        echo "$HOME/flutter/bin" >> $GITHUB_PATH
+        # Verifica que flutter esté instalado correctamente
+        source $HOME/flutter/bin/flutter --version
+        flutter doctor
 
     - name: Verify Flutter & Dart version
       run: |
