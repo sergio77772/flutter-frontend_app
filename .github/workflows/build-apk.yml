@@ -16,9 +16,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@v3  # Usa la nueva versión
       with:
-        flutter-version: stable  # Usa siempre la última versión estable
+        flutter-version: "3.16.0"  # Usa una versión específica
 
     - name: Install dependencies
       run: flutter pub get
@@ -33,4 +33,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: app-release.apk
-        path: build/app/o
+        path: build/app/outputs/flutter-apk/app-release.apk  
