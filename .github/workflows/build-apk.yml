@@ -3,7 +3,7 @@ name: Build Flutter APK
 on:
   push:
     branches:
-      - master  # Cambié de master a main
+      - master  # Aseguramos que sigue siendo master
   pull_request:
 
 jobs:
@@ -18,11 +18,15 @@ jobs:
     - name: Install Flutter manually
       run: |
         # Clona el repositorio de Flutter directamente desde el canal estable
-        git clone https://github.com/flutter/flutter.git --depth 1 -b stable $HOME/flutter
+        git clone https://github.com/flutter/flutter.git --depth 1 -b master $HOME/flutter
+        cd $HOME/flutter
+        # Forzar la actualización de referencias y submódulos de git
+        git fetch --all
+        git checkout master
+        git submodule update --init --recursive
         # Añade Flutter al PATH
         echo "$HOME/flutter/bin" >> $GITHUB_PATH
         # Verifica que flutter esté instalado correctamente
-        source $HOME/flutter/bin/flutter --version
         flutter doctor
 
     - name: Verify Flutter & Dart version
