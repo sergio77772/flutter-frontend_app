@@ -16,9 +16,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Flutter
-      uses: subosito/flutter-action@v3  # Usa la nueva versión
+      uses: subosito/flutter-action@v2
       with:
-        flutter-version: "3.16.0"  # Usa una versión específica
+        flutter-version: "3.16.0"  # Especifica una versión válida
 
     - name: Install dependencies
       run: flutter pub get
