@@ -3,7 +3,7 @@ name: Build Flutter APK
 on:
   push:
     branches:
-      - master
+      - main  # Cambié de master a main
   pull_request:
 
 jobs:
