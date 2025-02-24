@@ -13,17 +13,19 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4  # Usa v4 para mayor compatibilidad
+      uses: actions/checkout@v4  # Usa la última versión estable de checkout
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: "3.16.0"  # Instala una versión compatible con Dart 3.5.3
+    - name: Install Flutter manually
+      run: |
+        # Clona el repositorio de Flutter directamente desde el canal estable
+        git clone https://github.com/flutter/flutter.git --depth 1 -b stable $HOME/flutter
+        echo "$HOME/flutter/bin" >> $GITHUB_PATH  # Añade Flutter al PATH
+        flutter doctor --version  # Verifica la versión de Flutter y Dart
 
     - name: Verify Flutter & Dart version
       run: |
-        flutter --version
-        dart --version
+        flutter --version  # Muestra la versión de Flutter instalada
+        dart --version  # Muestra la versión de Dart instalada
 
     - name: Install dependencies
       run: flutter pub get
@@ -38,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v4  # Cambiado a v4
       with:
         name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk  
+        path: build/app/outputs/flutter-apk/app-release.apk
