@@ -13,15 +13,17 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # Usa v4 para mayor compatibilidad
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: "3.16.0"  # Especifica una versión compatible con Dart 3.5.3
+        flutter-version: "3.16.0"  # Instala una versión compatible con Dart 3.5.3
 
-    - name: Verify Dart version
-      run: dart --version  # Muestra la versión de Dart instalada
+    - name: Verify Flutter & Dart version
+      run: |
+        flutter --version
+        dart --version
 
     - name: Install dependencies
       run: flutter pub get
@@ -33,7 +35,7 @@ jobs:
       run: flutter build apk --release
 
     - name: Upload APK
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4  # Cambiado a v4
       with:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk  
