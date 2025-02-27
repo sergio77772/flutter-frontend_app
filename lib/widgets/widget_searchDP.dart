@@ -35,7 +35,7 @@ class _WidgetSearchDPHomeState extends State<WidgetSearchDP> {
                         height: 30,
                         width: 30,
                         child: Icon(Icons.keyboard_arrow_left_outlined,size: 30,
-                            color: Colors.black),
+                            color: Colors.grey),
                       ),
                     ),
 

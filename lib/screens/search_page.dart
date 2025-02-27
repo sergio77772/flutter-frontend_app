@@ -1,9 +1,10 @@
+import 'package:app_distribuidora/models/productos_model.dart';
 import 'package:app_distribuidora/screens/detalles_productos.dart';
+import 'package:app_distribuidora/services/search_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -15,7 +16,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  List<dynamic> _searchResults = [];
+  final SearchService _searchService = SearchService();
+  List<Producto> _searchResultados = [];
   bool _isLoading = false;
   bool _hasError = false;
 
@@ -28,33 +30,17 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _searchProducts(String query) async {
-    if (query.isEmpty) {
-      setState(() {
-        _searchResults = [];
-        _hasError = false;
-      });
-      return;
-    }
-
     setState(() {
       _isLoading = true;
       _hasError = false;
     });
 
     try {
-      final url = Uri.parse(
-          'https://distribuidoraassefperico.com.ar/apis/productos.php?endpoint=producto&search=$query&page=1&limit=20');
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          _searchResults = data['producto'] ?? [];
-          _isLoading = false;
-        });
-      } else {
-        throw Exception('Error al cargar productos');
-      }
+      final results = await _searchService.searchProducts(query);
+      setState(() {
+        _searchResultados = results;
+        _isLoading = false;
+      });
     } catch (e) {
       setState(() {
         _isLoading = false;
@@ -102,6 +88,11 @@ class _SearchPageState extends State<SearchPage> {
                             focusNode: _searchFocusNode,
                             onChanged: (value) {
                               setState(() {});
+                              _searchProducts(value);
+                            },
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (value) {
+                              _searchFocusNode.unfocus();
                               _searchProducts(value);
                             },
                             cursorColor: Colors.black,
@@ -164,16 +155,16 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ] else if (_hasError) ...[
             const Center(child: Text('Error al cargar productos')),
-          ] else if (_searchResults.isNotEmpty) ...[
+          ] else if (_searchResultados.isNotEmpty) ...[
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Wrap(
                     children: List.generate(
-                      _searchResults.length,
+                      _searchResultados.length,
                       (index) {
-                        final producto = _searchResults[index];
+                        final producto = _searchResultados[index];
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -216,7 +207,7 @@ class _SearchPageState extends State<SearchPage> {
                                         width: 80,
                                         color: Colors.white,
                                         child: Image.network(
-                                          'https://distribuidoraassefperico.com.ar${producto['imagen']}',
+                                          'https://distribuidoraassefperico.com.ar${producto.imagen}',
                                           width: double.infinity,
                                           errorBuilder:
                                               (context, error, stackTrace) {
@@ -247,8 +238,7 @@ class _SearchPageState extends State<SearchPage> {
                                           padding:
                                               const EdgeInsets.only(top: 10),
                                           child: Text(
-                                            producto['descripcion'] ??
-                                                'Sin descripcion',
+                                            producto.descripcion,
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
@@ -264,8 +254,7 @@ class _SearchPageState extends State<SearchPage> {
                                           child: SizedBox(
                                             width: 200,
                                             child: Text(
-                                              producto['descripcioncompleta']
-                                                  .toString(),
+                                              producto.descripcioncompleta,
                                               maxLines: 5,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
@@ -280,7 +269,7 @@ class _SearchPageState extends State<SearchPage> {
                                           padding:
                                               const EdgeInsets.only(top: 5),
                                           child: Text(
-                                            '\$${producto['precioventa'] ?? '0.00'}',
+                                            '\$${producto.precioventa}',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(

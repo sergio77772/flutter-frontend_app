@@ -1,4 +1,7 @@
+import 'package:app_distribuidora/models/categorias_model.dart';
 import 'package:app_distribuidora/services/categorias_service.dart';
+import 'package:app_distribuidora/widgets/widget_categorias.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CategoriasScreen extends StatefulWidget {
@@ -10,7 +13,7 @@ class CategoriasScreen extends StatefulWidget {
 
 class _CategoriasScreenState extends State<CategoriasScreen> {
   final CategoriasService _categoriasService = CategoriasService();
-  List<dynamic> _categories = [];
+  List<Categoria> _categorias = [];
   bool _isLoading = true;
   //   int _page = 1;
   // final int _limit = 10;
@@ -23,9 +26,9 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
 
   Future<void> _fetchCategorias() async {
     try {
-      final allCategories = await _categoriasService.fetchCategorias(1,100);
+      final allCategorias = await _categoriasService.fetchCategorias(1,100);
       setState(() {
-        _categories = allCategories;
+        _categorias = allCategorias;
       });
     } catch (error) {
       print('Error al cargar categorías: $error');
@@ -42,7 +45,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     
-    // final displayedCategories = _categories.take(5); // limitar cantidas usandoo .take()`
+    // final displayedCategories = _categorias.take(5); // limitar cantidas usandoo .take()`
     return Scaffold(
       
       body: _isLoading
@@ -99,9 +102,9 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                               runSpacing: 3.0,
                               children: List.generate(
                                   // displayedCategories.length, // muestra la cantidad de categorias que quiera.
-                                _categories.length,
+                                _categorias.length,
                                 (index) {
-                                  var categoria = _categories[index];
+                                  var categoria = _categorias[index];
                                   return Container(
                                     margin: const EdgeInsets.all(3.0),
                                     clipBehavior: Clip.antiAlias,
@@ -134,18 +137,36 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                             //                   child: Image.network(
                                             //   'https://distribuidoraassefperico.com.ar${categoria['imagen']}', // Concatenar correctamente la URL base con la ruta de la imagen
                                             // ),
-                                            child: Image.network(
-                                              'https://distribuidoraassefperico.com.ar${categoria['imagen']}',
-                                              fit: BoxFit.cover,
-                                              errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return const Icon(
+                                            child:
+                                            // Image.network(
+                                            //   'https://distribuidoraassefperico.com.ar${categoria.imagen}',
+                                            //   fit: BoxFit.cover,
+                                            //   errorBuilder:
+                                            //       (context, error, stackTrace) {
+                                            //     return const Icon(
+                                            //       Icons.broken_image,
+                                            //       size: 90,
+                                            //       color: Colors.white,
+                                            //     );
+                                            //   },
+                                            // ), 
+                                            CachedNetworkImage(
+                                                imageUrl:
+                                                    'https://distribuidoraassefperico.com.ar${categoria.imagen}',
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    const Center(
+                                                  child:
+                                                      CircularProgressIndicator(color: Colors.black,),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(
                                                   Icons.broken_image,
                                                   size: 90,
                                                   color: Colors.white,
-                                                );
-                                              },
-                                            ), // Si la imagen es null o vacía, no muestra nada
+                                                ),
+                                              )// Si la imagen es null o vacía, no muestra nada
                                           ),
                                         ),
                                         const SizedBox(height: 5),
@@ -156,7 +177,7 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                                           height: 35,
                                           child: Center(
                                             child: Text(
-                                              categoria['nombre'] ?? '',
+                                              categoria.nombre,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 9,

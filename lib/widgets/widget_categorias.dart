@@ -1,17 +1,18 @@
+import 'package:app_distribuidora/models/categorias_model.dart';
 import 'package:app_distribuidora/screens/categorias_screen.dart';
 import 'package:app_distribuidora/services/categorias_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Categorias extends StatefulWidget {
+class CategoriasWidgetHome extends StatefulWidget {
   @override
-  _CategoriasState createState() => _CategoriasState();
+  _CategoriasWidgetHomeState createState() => _CategoriasWidgetHomeState();
 }
 
-class _CategoriasState extends State<Categorias> {
+class _CategoriasWidgetHomeState extends State<CategoriasWidgetHome> {
   final CategoriasService _categoriasService =
       CategoriasService(); // Instancia del servicio
-  List<dynamic> _categories = [];
+  List<Categoria> _categorias = [];
 
   int _page = 1;
   final int _limit = 10;
@@ -31,7 +32,7 @@ class _CategoriasState extends State<Categorias> {
       final newCategories =
           await _categoriasService.fetchCategorias(_page, _limit);
       setState(() {
-        _categories.addAll(newCategories);
+        _categorias.addAll(newCategories);
         _page++;
         if (newCategories.length < _limit) _hasMore = false;
       });
@@ -43,7 +44,7 @@ class _CategoriasState extends State<Categorias> {
   @override
   Widget build(BuildContext context) {
     // Limita las categorías a un máximo de 8.
-    final displayedCategories = _categories.take(8).toList();
+    final displayedCategories = _categorias.take(8).toList();
 
     return Container(
       height: 118,
@@ -119,7 +120,7 @@ class _CategoriasState extends State<Categorias> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Image.network(
-                            'https://distribuidoraassefperico.com.ar${categoria['imagen']}',
+                            'https://distribuidoraassefperico.com.ar${categoria.imagen}',
                             width: double.infinity,
                             height: 120,
                             errorBuilder: (context, error, stackTrace) {
@@ -134,7 +135,7 @@ class _CategoriasState extends State<Categorias> {
                         SizedBox(height: 5),
                         Container(
                           child: Text(
-                            categoria['nombre'] ?? 'Sin nombre',
+                            categoria.nombre,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 8,

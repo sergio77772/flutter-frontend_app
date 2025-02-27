@@ -1,19 +1,18 @@
-import 'package:app_distribuidora/screens/detalles_productos.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_distribuidora/models/productos_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_distribuidora/services/productos_service.dart';
 import 'package:flutter_svg/svg.dart'; // Asegúrate de importar el servicio correcto.
 
-class Productos extends StatefulWidget {
-  const Productos({super.key});
+class ProductoswidgetHome extends StatefulWidget {
+  const ProductoswidgetHome({super.key});
 
   @override
-  State<Productos> createState() => _ProductosState();
+  State<ProductoswidgetHome> createState() => _ProductoswidgetHomeState();
 }
 
-class _ProductosState extends State<Productos> {
+class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
   final ProductosService _productosService = ProductosService();
-  List<dynamic> _productos = [];
+  List<Producto> _productos = [];
   int _paginaActual = 1;
   final int _productosPorPagina = 20;
   bool _cargando = false;
@@ -74,15 +73,15 @@ class _ProductosState extends State<Productos> {
                       // Acción al tocar un producto
                     },
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) =>
-                                DetallesProductos(producto: producto),
-                          ),
-                        );
-                      },
+                      // onTap: () {
+                      //   Navigator.push(
+                      //     context,
+                      //     CupertinoPageRoute(
+                      //       builder: (context) =>
+                      //           DetallesProductos(producto: producto),
+                      //     ),
+                      //   );
+                      // },
                       child: Container(
                         width: 170, // 2 por fila
                         height: 240,
@@ -105,7 +104,7 @@ class _ProductosState extends State<Productos> {
                                   width: 150,
                                   color: Colors.white,
                                   child: Image.network(
-                                    'https://distribuidoraassefperico.com.ar${producto['imagen']}',
+                                    'https://distribuidoraassefperico.com.ar${producto.imagen}',
                                     width: double.infinity,
                                     errorBuilder: (context, error, stackTrace) {
                                       return SvgPicture.network(
@@ -131,8 +130,7 @@ class _ProductosState extends State<Productos> {
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Container(
                                   child: Text(
-                                    producto['descripcion'] ??
-                                        'Sin descripcion',
+                                    producto.descripcion,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
@@ -150,7 +148,7 @@ class _ProductosState extends State<Productos> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '\$${producto['precioventa']?.toString() ?? '0.00'}',
+                                        '\$${producto.precioventa}',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(

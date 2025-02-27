@@ -1,9 +1,10 @@
+import 'package:app_distribuidora/models/productos_model.dart';
 import 'package:app_distribuidora/widgets/widget_searchDP.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DetallesProductos extends StatelessWidget {
-  final Map<String, dynamic> producto;
+  final Producto producto;
 
   const DetallesProductos({super.key, required this.producto});
 
@@ -43,7 +44,7 @@ class DetallesProductos extends StatelessWidget {
                               Container(
                                 width: 300,
                                 child: Image.network(
-                                  'https://distribuidoraassefperico.com.ar${producto['imagen']}',
+                                  'https://distribuidoraassefperico.com.ar${producto.imagen}',
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return SvgPicture.network(
@@ -74,8 +75,7 @@ class DetallesProductos extends StatelessWidget {
                                       children: [
                                         Container(
                                           child: Text(
-                                            producto['descripcion'] ??
-                                                'Sin código',
+                                            producto.descripcion,
                                             maxLines: 5,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
@@ -91,7 +91,7 @@ class DetallesProductos extends StatelessWidget {
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Container(
                                         child: Text(
-                                          '\$${producto['precioventa'] ?? '0.00'}',
+                                          '\$${producto.precioventa}',
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600,
@@ -125,8 +125,7 @@ class DetallesProductos extends StatelessWidget {
                                                 ),
                                               ),
                                               TextSpan(
-                                                text: producto['stock'] ??
-                                                    'Sin Stock',
+                                                text: producto.stock,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
@@ -319,8 +318,7 @@ class DetallesProductos extends StatelessWidget {
                                     child: Container(
                                       width: 320,
                                       child: Text(
-                                        producto['descripcioncompleta'] ??
-                                            'Sin descripción',
+                                        producto.descripcioncompleta,
                                         maxLines: 100,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(

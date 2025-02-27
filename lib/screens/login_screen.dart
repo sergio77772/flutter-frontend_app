@@ -14,46 +14,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  // bool isLoading = false;
-
-  Future<void> login() async {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      _showSnackbar("Por favor, ingrese su correo y contraseña.");
-      return;
-    }
-
-    // setState(() {
-    //   isLoading = true;
-    // });
-
-    final data =
-        await LoginService.login(emailController.text, passwordController.text);
-
-    // setState(() {
-    //   isLoading = false;
-    // });
-
-    if (data.containsKey('success') && data['success'] is String) {
-      if (data['success'].toLowerCase().contains("login exitoso")) {
-        // Navigator.pushAndRemoveUntil(
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (route) => false,
-        );
-      } else {
-        _showSnackbar("Error: ${data['message'] ?? 'Mensaje no especificado'}");
-      }
-    } else {
-      _showSnackbar("Credenciales incorrectas");
-    }
-  }
-
-  void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message, style: TextStyle(color: Colors.white),), backgroundColor: Colors.black,),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +135,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SizedBox(height: 60),
                               GestureDetector(
-                                onTap: login,
+                                onTap: () {
+                                  LoginService.login(
+                                      context,
+                                      emailController.text,
+                                      passwordController.text);
+                                },
                                 child: Container(
                                   height: 55,
                                   width: 300,
