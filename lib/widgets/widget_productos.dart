@@ -1,4 +1,7 @@
 import 'package:app_distribuidora/models/productos_model.dart';
+import 'package:app_distribuidora/screens/detalles_productos.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_distribuidora/services/productos_service.dart';
 import 'package:flutter_svg/svg.dart'; // Asegúrate de importar el servicio correcto.
@@ -73,15 +76,15 @@ class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
                       // Acción al tocar un producto
                     },
                     child: GestureDetector(
-                      // onTap: () {
-                      //   Navigator.push(
-                      //     context,
-                      //     CupertinoPageRoute(
-                      //       builder: (context) =>
-                      //           DetallesProductos(producto: producto),
-                      //     ),
-                      //   );
-                      // },
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) =>
+                                DetallesProductos(producto: producto),
+                          ),
+                        );
+                      },
                       child: Container(
                         width: 170, // 2 por fila
                         height: 240,
@@ -100,30 +103,58 @@ class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  height: 150,
-                                  width: 150,
-                                  color: Colors.white,
-                                  child: Image.network(
-                                    'https://distribuidoraassefperico.com.ar${producto.imagen}',
-                                    width: double.infinity,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return SvgPicture.network(
+                                    height: 150,
+                                    width: 150,
+                                    color: Colors.white,
+                                    child:
+                                        // Image.network(
+                                        //   'https://distribuidoraassefperico.com.ar${producto.imagen}',
+                                        //   width: double.infinity,
+                                        //   errorBuilder: (context, error, stackTrace) {
+                                        //     return SvgPicture.network(
+                                        //       'https://distribuidoraassefperico.com.ar/img/No_image_available.svg',
+                                        //       fit: BoxFit.cover,
+                                        //       // placeholderBuilder: (context) =>
+                                        //       //     const CircularProgressIndicator(), // Indicador de carga opcional
+                                        //       errorBuilder:
+                                        //           (context, error, stackTrace) {
+                                        //         return Icon(
+                                        //           Icons.broken_image,
+                                        //           size: 120,
+                                        //           color: Colors.white,
+                                        //         );
+                                        //       },
+                                        //     );
+                                        //   },
+                                        // ),
+                                        CachedNetworkImage(
+                                      imageUrl:
+                                          'https://distribuidoraassefperico.com.ar${producto.imagen}',
+                                      // fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.grey),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          SvgPicture.network(
                                         'https://distribuidoraassefperico.com.ar/img/No_image_available.svg',
                                         fit: BoxFit.cover,
-                                        // placeholderBuilder: (context) =>
-                                        //     const CircularProgressIndicator(), // Indicador de carga opcional
+                                        placeholderBuilder: (context) =>
+                                            const Center(
+                                          child: CircularProgressIndicator(
+                                              color: Colors.black),
+                                        ),
                                         errorBuilder:
                                             (context, error, stackTrace) {
-                                          return Icon(
+                                          return const Icon(
                                             Icons.broken_image,
                                             size: 120,
                                             color: Colors.white,
                                           );
                                         },
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      ),
+                                    )),
                               ),
                               Padding(
                                 padding:

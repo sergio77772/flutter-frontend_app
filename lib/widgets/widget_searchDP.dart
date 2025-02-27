@@ -14,7 +14,6 @@ class _WidgetSearchDPHomeState extends State<WidgetSearchDP> {
     return Column(
       children: [
         Container(
-          
           height: 75,
           padding: const EdgeInsets.only(top: 5),
           child: Padding(
@@ -26,33 +25,34 @@ class _WidgetSearchDPHomeState extends State<WidgetSearchDP> {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     GestureDetector(
                       onTap: () {
-                          Navigator.pop(context);
-                        },
+                        Navigator.pop(context);
+                      },
                       child: Container(
                         height: 30,
                         width: 30,
-                        child: Icon(Icons.keyboard_arrow_left_outlined,size: 30,
-                            color: Colors.grey),
+                        child: Icon(Icons.keyboard_arrow_left_outlined,
+                            size: 30, color: Colors.grey),
                       ),
                     ),
-
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Expanded(
                       child: Container(
                         height: 32,
                         width: 290,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            blurRadius: 2,
-                                            spreadRadius: 1,
-                                            offset: Offset(0, 2)),
-                          ]
-                        ),
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              spreadRadius: 1,
+                              offset: Offset(0, 2)),
+                        ]),
                         child: TextField(
                           readOnly:
                               true, // No es editable directamente, solo redirige

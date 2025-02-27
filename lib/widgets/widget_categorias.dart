@@ -1,6 +1,7 @@
 import 'package:app_distribuidora/models/categorias_model.dart';
 import 'package:app_distribuidora/screens/categorias_screen.dart';
 import 'package:app_distribuidora/services/categorias_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _CategoriasWidgetHomeState extends State<CategoriasWidgetHome> {
   int _page = 1;
   final int _limit = 10;
   bool _hasMore = true;
-  bool _isLoaded = false;
+  // bool _isLoaded = false;
 
   @override
   void initState() {
@@ -119,18 +120,37 @@ class _CategoriasWidgetHomeState extends State<CategoriasWidgetHome> {
                             ],
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Image.network(
-                            'https://distribuidoraassefperico.com.ar${categoria.imagen}',
-                            width: double.infinity,
-                            height: 120,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(
-                                Icons.broken_image,
-                                size: 50,
-                                color: Colors.white,
-                              );
-                            },
-                          ), // Si la imagen es null o vacía, no muestra nada
+                          child:
+                          //  Image.network(
+                          //   'https://distribuidoraassefperico.com.ar${categoria.imagen}',
+                          //   width: double.infinity,
+                          //   height: 120,
+                          //   errorBuilder: (context, error, stackTrace) {
+                          //     return const Icon(
+                          //       Icons.broken_image,
+                          //       size: 50,
+                          //       color: Colors.white,
+                          //     );
+                          //   },
+                          // ), // Si la imagen es null o vacía, no muestra nada
+                          CachedNetworkImage(
+                                                imageUrl:
+                                                    'https://distribuidoraassefperico.com.ar${categoria.imagen}',
+                                                fit: BoxFit.cover,
+                                                height: 120,
+                                                placeholder: (context, url) =>
+                                                    const Center(
+                                                  child:
+                                                      CircularProgressIndicator(color: Colors.white,),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(
+                                                  Icons.broken_image,
+                                                  size: 50,
+                                                  color: Colors.white,
+                                                ),
+                                              )// Si la imagen es null o vacía, no muestra nada
                         ),
                         SizedBox(height: 5),
                         Container(

@@ -26,7 +26,9 @@ class _WidgetSearchHomeState extends State<WidgetSearchHome> {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 15,),
+                    SizedBox(
+                      width: 15,
+                    ),
                     Expanded(
                       child: Container(
                         height: 32,

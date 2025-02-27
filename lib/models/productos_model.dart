@@ -6,7 +6,7 @@ class Producto {
   final String precioventa;
   final String imagen;
   final String descripcioncompleta;
-    final String stock;
+  final String stock;
   // Agrega otros campos que estén presentes en tu respuesta JSON
 
   Producto({
@@ -21,9 +21,10 @@ class Producto {
     return Producto(
       id: json['id']?.toString() ?? 'Sin ID',
       descripcion: json['descripcion']?.toString() ?? 'Sin descripcion',
-      precioventa: json['precioventa']?? '0.00',
+      precioventa: json['precioventa'] ?? '0.00',
       imagen: json['imagen']?.toString() ?? 'Sin imagen',
-      descripcioncompleta: json['descripcioncompleta']?.toString() ?? 'Sin descripcion completa',
+      descripcioncompleta:
+          json['descripcioncompleta']?.toString() ?? 'Sin descripcion completa',
       stock: json['stock']?.toString() ?? 'Sin stock',
       // Asigna otros campos aquí
     );

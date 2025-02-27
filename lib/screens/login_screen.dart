@@ -1,4 +1,3 @@
-import 'package:app_distribuidora/screens/home_screen.dart';
 import 'package:app_distribuidora/screens/register_login.dart';
 import 'package:app_distribuidora/services/login_service.dart';
 import 'package:flutter/cupertino.dart';

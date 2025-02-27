@@ -1,6 +1,5 @@
 import 'package:app_distribuidora/models/categorias_model.dart';
 import 'package:app_distribuidora/services/categorias_service.dart';
-import 'package:app_distribuidora/widgets/widget_categorias.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

@@ -17,7 +17,7 @@ class Categoria {
     return Categoria(
       idcategoria: json['idcategoria']?.toString() ?? 'Sin ID',
       nombre: json['nombre']?.toString() ?? 'Sin descripcion',
-      estado: json['estado']?. toString() ?? 'Sin estado',
+      estado: json['estado']?.toString() ?? 'Sin estado',
       imagen: json['imagen']?.toString() ?? 'Sin imagen',
       // Asigna otros campos aquí
     );
