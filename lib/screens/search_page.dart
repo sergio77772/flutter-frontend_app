@@ -1,9 +1,9 @@
-import 'package:app_distribuidora/models/productos_model.dart';
+import 'package:app_distribuidora/providers/search_provider.dart';
 import 'package:app_distribuidora/screens/detalles_productos.dart';
-import 'package:app_distribuidora/services/search_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -13,43 +13,13 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
-  final SearchService _searchService = SearchService();
-  List<Producto> _searchResultados = [];
-  bool _isLoading = false;
-  bool _hasError = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 300), () {
-      FocusScope.of(context).requestFocus(_searchFocusNode);
-    });
-  }
-
-  Future<void> _searchProducts(String query) async {
-    setState(() {
-      _isLoading = true;
-      _hasError = false;
-    });
-
-    try {
-      final results = await _searchService.searchProducts(query);
-      setState(() {
-        _searchResultados = results;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _hasError = true;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+   final searchProvider = Provider.of<SearchProvider>(context);
+      Future.delayed(Duration.zero, () {
+    searchProvider.searchFocusNode.requestFocus(); 
+  });
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       body: Column(
@@ -83,17 +53,16 @@ class _SearchPageState extends State<SearchPage> {
                           height: 32,
                           child: TextField(
                             textCapitalization: TextCapitalization.sentences,
-                            controller: _searchController,
-                            focusNode: _searchFocusNode,
-                            onChanged: (value) {
-                              setState(() {});
-                              _searchProducts(value);
-                            },
+                            controller: searchProvider.searchController,
+                            focusNode: searchProvider.searchFocusNode,
+                            onChanged: searchProvider.searchProductos,
+                            onSubmitted:
+                                (value) => searchProvider.searchProductos(
+                                  value,
+                                ),
+                            
                             textInputAction: TextInputAction.search,
-                            onSubmitted: (value) {
-                              _searchFocusNode.unfocus();
-                              _searchProducts(value);
-                            },
+                            
                             cursorColor: Colors.black,
                             cursorHeight: 18,
                             decoration: InputDecoration(
@@ -101,12 +70,13 @@ class _SearchPageState extends State<SearchPage> {
                               fillColor: Colors.white,
                               prefixIcon: const Icon(Icons.search,
                                   size: 20, color: Colors.grey),
-                              suffixIcon: _searchController.text.isNotEmpty
+                              suffixIcon:
+                                  searchProvider
+                                          .searchController
+                                          .text
+                                          .isNotEmpty
                                   ? GestureDetector(
-                                      onTap: () {
-                                        _searchController.clear();
-                                        setState(() {});
-                                      },
+                                       onTap: searchProvider.clearSearch,
                                       child: const Icon(Icons.clear,
                                           size: 20, color: Colors.grey),
                                     )
@@ -146,24 +116,24 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          if (_isLoading) ...[
+          if (searchProvider.isLoading) ...[
             Expanded(
               child: Center(
                 child: CircularProgressIndicator(color: Colors.grey),
               ),
             ),
-          ] else if (_hasError) ...[
+          ] else if (searchProvider.hasError) ...[
             const Center(child: Text('Error al cargar productos')),
-          ] else if (_searchResultados.isNotEmpty) ...[
+          ] else if (searchProvider.searchResultados.isNotEmpty) ...[
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Wrap(
                     children: List.generate(
-                      _searchResultados.length,
+                      searchProvider.searchResultados.length,
                       (index) {
-                        final producto = _searchResultados[index];
+                        final producto = searchProvider.searchResultados[index];
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -293,18 +263,13 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-          ] else if (_searchController.text.isNotEmpty) ...[
+          ] else if (searchProvider.searchController.text.isNotEmpty) ...[
             const Center(child: Text('No se encontraron productos')),
           ],
         ],
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _searchFocusNode.dispose();
-    _searchController.dispose();
-    super.dispose();
-  }
 }
+
+

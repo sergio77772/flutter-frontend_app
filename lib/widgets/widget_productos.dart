@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart'; // Asegúrate de importar el servicio correcto.
+import 'package:provider/provider.dart'; 
 
 class ProductoswidgetHome extends StatefulWidget {
   const ProductoswidgetHome({super.key});

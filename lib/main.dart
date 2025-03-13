@@ -1,6 +1,7 @@
 
 import 'package:app_distribuidora/providers/categoria_provider.dart';
 import 'package:app_distribuidora/providers/productos_provider.dart';
+import 'package:app_distribuidora/providers/search_provider.dart';
 import 'package:app_distribuidora/screens/home_screen.dart';
 import 'package:app_distribuidora/screens/login_screen.dart';
 import 'package:app_distribuidora/screens/pre_login.dart';
@@ -14,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => CategoriasProvider()), 
         ChangeNotifierProvider(create: (_) => ProductosProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
 
       ],
       child: MyApp(),
