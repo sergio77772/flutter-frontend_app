@@ -1,4 +1,6 @@
+
 import 'package:app_distribuidora/providers/categoria_provider.dart';
+import 'package:app_distribuidora/providers/productos_provider.dart';
 import 'package:app_distribuidora/screens/home_screen.dart';
 import 'package:app_distribuidora/screens/login_screen.dart';
 import 'package:app_distribuidora/screens/pre_login.dart';
@@ -10,7 +12,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CategoriasProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriasProvider()), 
+        ChangeNotifierProvider(create: (_) => ProductosProvider()),
+
       ],
       child: MyApp(),
     ),
@@ -23,14 +27,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'App Productos',
-        initialRoute: '/',
-        routes: {
-          '/': (BuildContext context) => PreLogin(),
-          'login_screen': (BuildContext context) => LoginScreen(),
-          'register_screen': (BuildContext context) => RegisterScreen(),
-          'home_screen': (BuildContext context) => HomeScreen(),
-        });
+      debugShowCheckedModeBanner: false,
+      title: 'App Productos', 
+      initialRoute: '/', 
+      routes: {
+      '/': (BuildContext context) => PreLogin(),
+      'login_screen': (BuildContext context) => LoginScreen(),
+      'register_screen': (BuildContext context) => RegisterScreen(),
+      'home_screen': (BuildContext context) => HomeScreen(),
+      }
+    );
   }
 }

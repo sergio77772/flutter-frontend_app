@@ -1,10 +1,10 @@
-import 'package:app_distribuidora/models/productos_model.dart';
+import 'package:app_distribuidora/providers/productos_provider.dart';
 import 'package:app_distribuidora/screens/detalles_productos.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:app_distribuidora/services/productos_service.dart';
-import 'package:flutter_svg/svg.dart'; // Asegúrate de importar el servicio correcto.
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart'; // Asegúrate de importar el servicio correcto.
 
 class ProductoswidgetHome extends StatefulWidget {
   const ProductoswidgetHome({super.key});
@@ -14,41 +14,13 @@ class ProductoswidgetHome extends StatefulWidget {
 }
 
 class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
-  final ProductosService _productosService = ProductosService();
-  List<Producto> _productos = [];
-  int _paginaActual = 1;
-  final int _productosPorPagina = 20;
-  bool _cargando = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _cargarProductos();
-  }
-
-  Future<void> _cargarProductos() async {
-    if (_cargando) return;
-    setState(() => _cargando = true);
-
-    try {
-      final nuevosProductos = await _productosService.fetchProductos(
-          _paginaActual, _productosPorPagina);
-
-      setState(() {
-        _productos.addAll(nuevosProductos);
-        _paginaActual++;
-      });
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar productos: $error')),
-      );
-    } finally {
-      setState(() => _cargando = false); // Finalizar la carga
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+       final productosProvider = Provider.of<ProductosProvider>(context);
+    final productos = productosProvider.productos;
+    final cargando = productosProvider.cargando;
+    final hasMore = productosProvider.hasMore; 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -69,8 +41,8 @@ class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
                 ],
               ),
               child: Wrap(
-                children: List.generate(_productos.length, (index) {
-                  final producto = _productos[index];
+                children: List.generate(productos.length, (index) {
+                  final producto = productos[index];
                   return GestureDetector(
                     onTap: () {
                       // Acción al tocar un producto
@@ -203,7 +175,7 @@ class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
             ),
           ),
 
-          if (!_cargando) // Si no está cargando, mostrar botón
+          if (!cargando && hasMore) // Si no está cargando, mostrar botón
             Padding(
               padding: const EdgeInsets.all(10),
 
@@ -226,7 +198,7 @@ class _ProductoswidgetHomeState extends State<ProductoswidgetHome> {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.white)),
-                onPressed: _cargarProductos,
+                onPressed: productosProvider.cargarMasProductos,
                 child: const Text(
                   'Ver más',
                   style: TextStyle(color: Colors.black),
