@@ -1,7 +1,7 @@
-import 'package:app_distribuidora/models/categorias_model.dart';
-import 'package:app_distribuidora/services/categorias_service.dart';
+import 'package:app_distribuidora/providers/categoria_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoriasScreen extends StatefulWidget {
   const CategoriasScreen({super.key});
@@ -11,52 +11,17 @@ class CategoriasScreen extends StatefulWidget {
 }
 
 class _CategoriasScreenState extends State<CategoriasScreen> {
-  final CategoriasService _categoriasService = CategoriasService();
-  List<Categoria> _categorias = [];
-  bool _isLoading = true;
-  //   int _page = 1;
-  // final int _limit = 10;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchCategorias();
-  }
-
-  Future<void> _fetchCategorias() async {
-    try {
-      final allCategorias = await _categoriasService.fetchCategorias(1,100);
-      setState(() {
-        _categorias = allCategorias;
-      });
-    } catch (error) {
-      print('Error al cargar categorías: $error');
-    } finally {
-      setState(() {
-        _isLoading =
-            false; 
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final categoriasProvider = Provider.of<CategoriasProvider>(context);
+    final categorias = categoriasProvider.categorias;
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     
-    // final displayedCategories = _categorias.take(5); // limitar cantidas usandoo .take()`
-    return Scaffold(
-      
-      body: _isLoading
-          ? Container(
-              color: const Color(0xFFF5F5F5),
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                ),
-              ),
-            )
-          : Container(
+    return Scaffold(      
+      body:  Container(
               height: height,
               width: width,
               color: const Color(0xFFF5F5F5),
@@ -101,9 +66,9 @@ class _CategoriasScreenState extends State<CategoriasScreen> {
                               runSpacing: 3.0,
                               children: List.generate(
                                   // displayedCategories.length, // muestra la cantidad de categorias que quiera.
-                                _categorias.length,
+                                categorias.length,
                                 (index) {
-                                  var categoria = _categorias[index];
+                                  var categoria = categorias[index];
                                   return Container(
                                     margin: const EdgeInsets.all(3.0),
                                     clipBehavior: Clip.antiAlias,

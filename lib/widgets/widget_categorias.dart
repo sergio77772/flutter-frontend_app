@@ -1,9 +1,9 @@
-import 'package:app_distribuidora/models/categorias_model.dart';
+import 'package:app_distribuidora/providers/categoria_provider.dart';
 import 'package:app_distribuidora/screens/categorias_screen.dart';
-import 'package:app_distribuidora/services/categorias_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoriasWidgetHome extends StatefulWidget {
   @override
@@ -11,41 +11,12 @@ class CategoriasWidgetHome extends StatefulWidget {
 }
 
 class _CategoriasWidgetHomeState extends State<CategoriasWidgetHome> {
-  final CategoriasService _categoriasService =
-      CategoriasService(); // Instancia del servicio
-  List<Categoria> _categorias = [];
 
-  int _page = 1;
-  final int _limit = 10;
-  bool _hasMore = true;
-  // bool _isLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchCategorias();
-  }
-
-  Future<void> _fetchCategorias() async {
-    if (!_hasMore) return;
-
-    try {
-      final newCategories =
-          await _categoriasService.fetchCategorias(_page, _limit);
-      setState(() {
-        _categorias.addAll(newCategories);
-        _page++;
-        if (newCategories.length < _limit) _hasMore = false;
-      });
-    } catch (error) {
-      print('Error al cargar categorías: $error');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    // Limita las categorías a un máximo de 8.
-    final displayedCategories = _categorias.take(8).toList();
+  final categoriasProvider = Provider.of<CategoriasProvider>(context);
+    final categorias = categoriasProvider.categorias.take(8).toList(); //take par elegir la cantidad
 
     return Container(
       height: 118,
@@ -91,11 +62,11 @@ class _CategoriasWidgetHomeState extends State<CategoriasWidgetHome> {
           ),
           Container(
             height: 92, // Altura total del contenedor.
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Scroll horizontal.
-              itemCount: displayedCategories.length,
+             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: categorias.length,
               itemBuilder: (context, index) {
-                var categoria = displayedCategories[index]; // Categoría actual.
+                var categoria = categorias[index];
                 return Padding(
                   padding: const EdgeInsets.only(right: 5, left: 5),
                   child: Container(
