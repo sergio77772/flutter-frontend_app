@@ -27,8 +27,8 @@ class SearchService {
       } else {
         throw Exception('Error al cargar productos');
       }
-    } catch (e) {
-      print('Error en searchProducts: $e');
+    } catch (error) {
+      print('Error en searchProducts: $error');
       return []; // Retorna lista vacía si hay error
     }
   }

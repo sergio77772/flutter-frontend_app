@@ -1,9 +1,8 @@
 import 'package:app_distribuidora/screens/favoritos_screen.dart';
 import 'package:app_distribuidora/screens/notificaciones_screen.dart';
-
+import 'package:app_distribuidora/screens/perfil_usuario_screen.dart';
 import 'package:app_distribuidora/widgets/widget_categorias.dart';
 import 'package:app_distribuidora/widgets/widget_productos.dart';
-
 import 'package:app_distribuidora/widgets/widget_search_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_symbols/flutter_material_symbols.dart';
@@ -34,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (currentIndex == 0) homeScreen(height, width),
           if (currentIndex == 1) const FavoritosScreen(),
           if (currentIndex == 2) const NotificacionesScreen(),
-          if (currentIndex == 3) const Center(child: Text('Perfil de usuario')),
+          if (currentIndex == 3) const PerfilUsuarioScreen(),
         ],
       ),
       bottomNavigationBar: Container(

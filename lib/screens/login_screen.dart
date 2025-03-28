@@ -1,7 +1,8 @@
+import 'package:app_distribuidora/providers/login_provider.dart';
 import 'package:app_distribuidora/screens/register_login.dart';
-import 'package:app_distribuidora/services/login_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,7 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20))),
+                                topRight: Radius.circular(20)
+                            )
+                          ),
                         width: double.infinity,
                         height: alto * 0.7,
                         child: Padding(
@@ -133,43 +136,51 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               SizedBox(height: 60),
-                              GestureDetector(
-                                onTap: () {
-                                  LoginService.login(
+                            Consumer<LoginProvider>(
+                              builder: (context, provider, child) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    provider.login(
                                       context,
                                       emailController.text,
-                                      passwordController.text);
-                                },
-                                child: Container(
-                                  height: 55,
-                                  width: 300,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.black,
-                                    boxShadow: [
-                                      BoxShadow(
+                                      passwordController.text,
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 55,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.black,
+                                      boxShadow: [
+                                        BoxShadow(
                                           color: Colors.black.withOpacity(0.1),
                                           blurRadius: 3,
                                           spreadRadius: 1,
-                                          offset: Offset(0, 2)),
-                                    ],
-                                  ),
-                                  child: Center(
-                                    // child: isLoading
-                                    //   ? CircularProgressIndicator()
-                                    //   :
-                                    child: Text(
-                                      'Iniciar sesión',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child:
+                                          provider.isLoading
+                                              ? CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                              : Text(
+                                                'Iniciar sesión',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              SizedBox(height: 40),
+                                );
+                              },
+                            ),
+                            SizedBox(height: 40,),
                               Container(
                                 child: Align(
                                   alignment: Alignment.bottomRight,
