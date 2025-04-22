@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'App Productos',
+      title: 'App Distribuidora',
         home: FutureBuilder<bool>(
           future: _checkLoginStatus(),
           builder: (context, snapshot) {
