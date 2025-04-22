@@ -16,7 +16,7 @@ class _PreloginState extends State<PreLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: ListView(
           children: [
             Column(
@@ -27,7 +27,7 @@ class _PreloginState extends State<PreLogin> {
                   width: 400,
                  color: Colors.white,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -50,7 +50,7 @@ class _PreloginState extends State<PreLogin> {
                             offset: Offset(0, 2)),
                       ],
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       'Iniciar sesión',
                       style: TextStyle(
