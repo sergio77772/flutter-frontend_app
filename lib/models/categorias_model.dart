@@ -16,7 +16,7 @@ class Categoria {
   factory Categoria.fromJson(Map<String, dynamic> json) {
     return Categoria(
       idcategoria: json['idcategoria']?.toString() ?? 'Sin ID',
-      nombre: json['nombre']?.toString() ?? 'Sin descripcion',
+      nombre: json['nombre']?.toString() ?? 'Sin nombre',
       estado: json['estado']?.toString() ?? 'Sin estado',
       imagen: json['imagen']?.toString() ?? 'Sin imagen',
       // Asigna otros campos aquí

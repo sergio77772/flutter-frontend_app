@@ -1,4 +1,5 @@
 import 'package:app_distribuidora/providers/categoria_provider.dart';
+import 'package:app_distribuidora/providers/comercio_provider.dart';
 import 'package:app_distribuidora/providers/login_provider.dart';
 import 'package:app_distribuidora/providers/productos_provider.dart';
 import 'package:app_distribuidora/providers/search_provider.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProductosProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => ComercioProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

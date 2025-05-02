@@ -2,6 +2,7 @@ import 'package:app_distribuidora/screens/favoritos_screen.dart';
 import 'package:app_distribuidora/screens/notificaciones_screen.dart';
 import 'package:app_distribuidora/screens/perfil_usuario_screen.dart';
 import 'package:app_distribuidora/widgets/widget_categorias.dart';
+import 'package:app_distribuidora/widgets/widget_imgs_comercio.dart';
 import 'package:app_distribuidora/widgets/widget_productos.dart';
 import 'package:app_distribuidora/widgets/widget_search_home.dart';
 import 'package:flutter/material.dart';
@@ -94,21 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   SizedBox(height: 5,),
-                  Container(
-                    height: 130,
-                    width: 330,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 6,
-                          spreadRadius: 1,
-                        )
-                      ],
-                    ),
-                  ),
+                  WidgetImgsComercio(),
                   const SizedBox(height: 10),
                   CategoriasWidgetHome(),
                   SizedBox(height: 10),
