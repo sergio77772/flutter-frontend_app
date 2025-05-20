@@ -1,13 +1,53 @@
-gradle-wrapper.jar
-/.gradle
-/captures/
-/gradlew
-/gradlew.bat
-/local.properties
+# Claves y keystores (¡nunca subir!)
+key.properties
+*.keystore
+*.jks
+
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+pubspec.lock
+
+# Android - Gradle Wrapper (regenerable)
+android/gradlew
+android/gradlew.bat
+android/gradle/wrapper/gradle-wrapper.jar
+android/app/.cxx/
+
+# Android - Archivos generados
+/android/.gradle/
+/android/app/build/
+/android/build/
+/android/captures/
+/android/gradle/
+.gradle/
+captures/
+local.properties
+*.iml
+
+# iOS
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Flutter.podspec
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/ephemeral/
+/ios/Pods/
+/ios/Runner.xcworkspace/
+/ios/Flutter/App.framework
+/ios/Flutter/engine/
+/ios/Flutter/FlutterPluginRegistrant/GeneratedPluginRegistrant.java
+
+# Archivos generados
 GeneratedPluginRegistrant.java
 
-# Remember to never publicly share your keystore.
-# See https://flutter.dev/to/reference-keystore
-key.properties
-**/*.keystore
-**/*.jks
+# IDEs
+.idea/
+*.iml
+
+# Mac OS
+.DS_Store
+
+# Logs
+*.log
